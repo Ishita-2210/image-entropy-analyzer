@@ -2,3 +2,11 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Keep PDFs local; publish only the selected documentation deliverables.
+*.pdf
+documentation/*
+!documentation/Image_Entropy_Analyzer_Presentation.pptx
+!documentation/experiments.py
+!documentation/experiment_results.csv
+!documentation/experiment_manifest.json

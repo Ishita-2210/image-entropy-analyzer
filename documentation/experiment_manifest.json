@@ -1,0 +1,56 @@
+{
+  "seed": 20261020,
+  "shape": [
+    256,
+    256
+  ],
+  "checks_passed": [
+    "toy entropy",
+    "toy normalized",
+    "toy redundancy",
+    "constant entropy",
+    "four equal levels entropy",
+    "uniform full alphabet entropy",
+    "pixel permutation preserves histogram",
+    "pixel permutation preserves entropy",
+    "non array rejected",
+    "empty rejected",
+    "three dimensional rejected",
+    "clip then truncate",
+    "self information zero",
+    "self information quarter",
+    "invalid image bytes rejected",
+    "invalid image bytes rejected",
+    "EXIF orientation dimensions"
+  ],
+  "toy": {
+    "width": 4,
+    "height": 1,
+    "total_pixels": 4,
+    "entropy": 0.8112781244591328,
+    "maximum_entropy": 8.0,
+    "normalized_entropy": 0.1014097655573916,
+    "redundancy": 89.85902344426084,
+    "unique_levels": 2
+  },
+  "colour_demo_channel_entropies": {
+    "Red": 6.517913761028963,
+    "Green": 6.517913761028963,
+    "Blue": -0.0
+  },
+  "python": "3.13.3",
+  "versions": {
+    "numpy": "2.2.6",
+    "pillow": "11.3.0",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.3",
+    "streamlit": "1.46.1"
+  },
+  "source_sha256": {
+    "app.py": "328c39f5e2efbe82142b962a56d17182e55b707fe2975524b2f45e2011bb0673",
+    "entropy.py": "92777f777dfd8d9d2d0eac2134c4c4bb1d747259c20265c2fca03da360669098",
+    "image_utils.py": "6e22bc1a72f173c4ccd1039b0d9743f9af88b547159bfd99b9289e27ee333e71",
+    "requirements.txt": "4d6ae68f7e8943500f4087b6db02e2cc4ebb2f547dbbcdd28be0f053afe811d8",
+    "README.md": "363d4ddd3082d9b64d341cb14964b11f8bed23a24fe2cd2d2bd6ebda09fb8083"
+  }
+}
