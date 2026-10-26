@@ -177,6 +177,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
   const [metric, setMetric] = useState('js_distance');
   const [distribution, setDistribution] = useState('gray');
   const [threshold, setThreshold] = useState(8);
+  const [levels, setLevels] = useState(16);
   const [result, setResult] = useState<Comparison | null>(null);
   const [job, setJob] = useState<Job<Comparison> | null>(null);
   const [pair, setPair] = useState(0);
@@ -190,7 +191,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
         metric,
         distribution,
         near_threshold: threshold,
-        levels: Math.min(w.options.levels, 32),
+        levels,
       });
       setJob(started);
       const poll = async () => {
@@ -215,6 +216,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
   };
   const running = job?.status === 'running' || job?.status === 'queued';
   const selected = result?.pairs[pair];
+  const measuredMetric = result?.configuration.metric ?? metric;
   return (
     <>
       <div className="controls">
@@ -222,6 +224,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
           Distribution
           <select
             value={distribution}
+            aria-label="Distribution"
             onChange={(e) => {
               setDistribution(e.target.value);
               if (e.target.value === 'rgb' && metric === 'wasserstein') setMetric('js_distance');
@@ -242,7 +245,11 @@ export function SimilarityView({ w }: { w: Workbench }) {
         </label>
         <label className="field">
           Matrix distance
-          <select value={metric} onChange={(e) => setMetric(e.target.value)}>
+          <select
+            aria-label="Matrix distance"
+            value={metric}
+            onChange={(e) => setMetric(e.target.value)}
+          >
             {[
               ['js_distance', 'Jensen–Shannon distance'],
               ['hellinger', 'Hellinger distance'],
@@ -263,6 +270,15 @@ export function SimilarityView({ w }: { w: Workbench }) {
           max={64}
           onChange={setThreshold}
         />
+        {distribution === 'rgb' && (
+          <NumberField
+            label="RGB levels per channel"
+            value={levels}
+            min={2}
+            max={32}
+            onChange={setLevels}
+          />
+        )}
         <button
           className="primary"
           disabled={w.images.length < 2 || running}
@@ -305,7 +321,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
                 result.images.map((_, i) => `#${i + 1}`),
                 result.images.map((_, i) => `#${i + 1}`),
                 Math.max(...result.matrix.flat()),
-                metric,
+                measuredMetric,
               )}
               onSelect={([x, y]) => {
                 const i = result.pairs.findIndex(
@@ -324,6 +340,14 @@ export function SimilarityView({ w }: { w: Workbench }) {
               ))}
             </div>
             <p className="muted small">{result.definition}</p>
+            <p className="muted small">
+              Measured configuration: {result.configuration.distribution} · {measuredMetric}
+              {result.configuration.distribution === 'rgb'
+                ? ` · ${result.configuration.levels} levels/channel`
+                : ' · 256 intensity bins'}
+              {' · '}pHash threshold {result.configuration.near_threshold}. Controls apply to the
+              next comparison.
+            </p>
           </Section>
           <Section title="Candidate pairs & ranking">
             <div className="table-scroll">
@@ -331,7 +355,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
                 <thead>
                   <tr>
                     <th>Pair</th>
-                    <th>Selected distance</th>
+                    <th>Distance · {measuredMetric}</th>
                     <th>pHash / 64</th>
                     <th>dHash / 64</th>
                     <th>Evidence</th>
@@ -345,7 +369,7 @@ export function SimilarityView({ w }: { w: Workbench }) {
                           {p.left_name} ↔ {p.right_name}
                         </button>
                       </td>
-                      <td>{fmt(p.distances[metric] as number)}</td>
+                      <td>{fmt(p.distances[measuredMetric] as number)}</td>
                       <td>{p.phash_distance}</td>
                       <td>{p.dhash_distance}</td>
                       <td>

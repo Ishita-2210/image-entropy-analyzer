@@ -71,6 +71,20 @@ test('upload → batch results → comparisons → exports → opt-in history de
   await page.getByRole('button', { name: 'Similarity & duplicates', exact: true }).click();
   await page.getByRole('button', { name: 'Compare collection' }).click();
   await expect(page.getByText('SHA-256 byte duplicate', { exact: true })).toBeVisible();
+  await page.getByLabel('Matrix distance').selectOption('hellinger');
+  await expect(page.getByText('Measured configuration:', { exact: false })).toContainText(
+    'js_distance',
+  );
+  await page.getByRole('button', { name: 'Compare collection' }).click();
+  await expect(page.getByText('Measured configuration:', { exact: false })).toContainText(
+    'hellinger',
+  );
+  await page.getByLabel('Distribution', { exact: true }).selectOption('rgb');
+  await page.getByLabel('RGB levels per channel').fill('8');
+  await page.getByRole('button', { name: 'Compare collection' }).click();
+  await expect(page.getByText('Measured configuration:', { exact: false })).toContainText(
+    '8 levels/channel',
+  );
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   await page.getByLabel('Save subsequent analyses to local history').check();
   await page.getByRole('button', { name: 'Run analysis', exact: true }).click();

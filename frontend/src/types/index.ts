@@ -257,6 +257,7 @@ export interface Experiment {
   source_pixel_equal?: boolean;
 }
 export interface Comparison {
+  configuration: { metric: string; distribution: string; levels: number; near_threshold: number };
   images: ImageInfo[];
   matrix: number[][];
   groups: string[][];
