@@ -228,6 +228,7 @@ export interface TransformStep {
   resampling: 'nearest' | 'bilinear' | 'bicubic' | 'lanczos';
 }
 export interface Experiment {
+  difference_display_max?: number;
   image: ImageInfo;
   original_image_id: string;
   difference_image: ImageInfo | null;

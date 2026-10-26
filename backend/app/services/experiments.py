@@ -59,7 +59,10 @@ def reconstruction_metrics(original, reconstructed):
         metrics["delta_e76_mean"] = float(np.linalg.norm(lab_delta, axis=2).mean())
         d = np.abs(delta).mean(axis=2)
         metrics["difference_display_max"] = float(d.max())
-        normalized = (d / max(float(d.max()), 1) * 255).astype(np.uint8)
+        maximum = float(d.max())
+        normalized = (
+            np.round(d / maximum * 255).astype(np.uint8) if maximum else np.zeros(d.shape, np.uint8)
+        )
         difference = Image.fromarray(cv2.applyColorMap(normalized, cv2.COLORMAP_INFERNO)[..., ::-1])
     return metrics, difference
 

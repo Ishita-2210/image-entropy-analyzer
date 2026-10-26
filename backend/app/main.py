@@ -207,8 +207,8 @@ def create_app(settings: Settings | None = None):
             status_code=500,
         )
 
-    def compute(work):
-        if not app.state.jobs.compute.acquire(blocking=False):
+    def compute(work, wait_seconds=0):
+        if not app.state.jobs.compute.acquire(timeout=wait_seconds):
             raise BusyError("All processing workers are busy. Submit a background job or retry.")
         try:
             return work()
@@ -298,7 +298,8 @@ def create_app(settings: Settings | None = None):
             lambda: Response(
                 png_bytes(decode(stored.data, settings, stored.info.frame).image, size),
                 media_type="image/png",
-            )
+            ),
+            wait_seconds=5,
         )
 
     @app.get(prefix + "/images/{image_id}/download")

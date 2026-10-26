@@ -33,6 +33,14 @@ test('demo → numerical analysis → spatial exploration → real compression �
   await page.getByRole('button', { name: 'Encode & measure' }).click();
   await expect(page.getByText('Experiment notebook', { exact: true })).toBeVisible();
   await expect(page.getByText('Reconstruction', { exact: true })).toBeVisible();
+  await expect(page.getByAltText('Normalized absolute reconstruction difference')).toBeVisible();
+  await expect
+    .poll(() =>
+      page
+        .getByAltText('Normalized absolute reconstruction difference')
+        .evaluate((img: HTMLImageElement) => img.naturalWidth),
+    )
+    .toBeGreaterThan(0);
   const download = page.waitForEvent('download');
   await page.getByRole('link', { name: 'Download', exact: true }).click();
   expect((await download).suggestedFilename()).toBe('image.jpg');

@@ -1022,12 +1022,45 @@ input[type='range'] {
   margin-left: 8px;
   font-size: 9px;
 }
+.difference-frame {
+  position: relative;
+  height: 290px;
+  border: 1px solid var(--line);
+  background: #100c13;
+  overflow: hidden;
+}
 .difference-image {
   display: block;
-  max-height: 290px;
+  height: 100%;
   width: 100%;
   object-fit: contain;
-  background: #1b131d;
+}
+.difference-loading,
+.difference-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px;
+  color: #e2e7dc;
+  text-align: center;
+  font-size: 12px;
+}
+.difference-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  color: #596d4f;
+  font-size: 10px;
+}
+.difference-ramp {
+  flex: 1;
+  height: 8px;
+  background: linear-gradient(to right, #000004, #420a68, #932667, #dd513a, #fca50a, #fcffa4);
 }
 .pipeline-step {
   display: flex;

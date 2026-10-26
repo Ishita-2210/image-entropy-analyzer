@@ -3,9 +3,10 @@ import { Download, Play, Plus, RotateCcw, Trash2, Undo2 } from 'lucide-react';
 import { Chart } from '../components/Chart';
 import { lineOption } from '../lib/chartOptions';
 import { ImageViewer } from '../components/ImageViewer';
+import { DifferencePreview } from '../components/DifferencePreview';
 import { Empty, Metric, Notice, NumberField, Section, Spinner } from '../components/UI';
 import type { Workbench } from '../hooks/useWorkbench';
-import { API, api, bytes, fmt, preview } from '../lib/api';
+import { API, api, bytes, fmt } from '../lib/api';
 import type { Experiment, TransformKind, TransformStep } from '../types';
 
 function ExperimentResult({ result, w }: { result: Experiment; w: Workbench }) {
@@ -47,17 +48,11 @@ function ExperimentResult({ result, w }: { result: Experiment; w: Workbench }) {
       <div className="two-columns">
         <Section title="Difference field" eyebrow="NORMALIZED ABSOLUTE RGB ERROR">
           {result.difference_image ? (
-            <>
-              <img
-                className="difference-image"
-                src={preview(result.difference_image.id)}
-                alt="Normalized absolute reconstruction difference"
-              />
-              <p className="muted small">
-                Mean absolute RGB difference per pixel, scaled to this experiment's maximum for
-                visibility. Dark = zero. Compare numeric MAE across experiments.
-              </p>
-            </>
+            <DifferencePreview
+              key={result.difference_image.id}
+              imageId={result.difference_image.id}
+              maximum={result.difference_display_max}
+            />
           ) : (
             <Notice>
               Pixelwise differences require matching dimensions. Distribution statistics remain
