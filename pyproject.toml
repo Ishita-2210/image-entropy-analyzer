@@ -23,7 +23,7 @@ testpaths = ["backend/tests"]
 addopts = "-q"
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 include = ["backend/**/*.py", "scripts/**/*.py"]
 
