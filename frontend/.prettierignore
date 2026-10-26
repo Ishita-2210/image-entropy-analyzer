@@ -1,0 +1,7 @@
+node_modules
+node_modules-old
+package-lock.old.json
+dist
+package-lock.json
+test-results
+playwright-report

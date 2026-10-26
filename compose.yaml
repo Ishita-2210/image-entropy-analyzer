@@ -1,0 +1,16 @@
+services:
+  workbench:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      IEA_HISTORY: "false"
+      IEA_HISTORY_PATH: /app/.runtime/history.sqlite3
+      IEA_WORKERS: "2"
+    volumes:
+      - history:/app/.runtime
+    restart: unless-stopped
+    mem_limit: 2g
+    cpus: 2
+volumes:
+  history:
