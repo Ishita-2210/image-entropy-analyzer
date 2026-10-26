@@ -2,6 +2,23 @@
 __pycache__/
 *.pyc
 .DS_Store
+node_modules/
+node_modules-old/
+package-lock.old.json
+frontend/dist/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+*.sqlite*
+.env
+.env.*
+!.env.example
+.runtime/
+playwright-report/
+test-results/
+coverage/
+*.log
+*.tsbuildinfo
 
 # Keep PDFs local; publish only the selected documentation deliverables.
 *.pdf

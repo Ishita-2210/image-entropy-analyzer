@@ -1,0 +1,4 @@
+# Optional: the original Streamlit application remains available.
+-r requirements.txt
+streamlit>=1.45,<2
+matplotlib>=3.10,<4
